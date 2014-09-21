@@ -9,7 +9,8 @@ of TwitchTV's features.
 import json
 import requests
 
-import twitcher.classes
+import classes
+import helper
 
 __version__ = '0.0.1'
 
@@ -30,7 +31,7 @@ class Twitcher(object):
 	requests and returns objects.
 	"""
 	def __init__(self):
-		self.rest = twitcher.classes.helper.RESTHelper()
+		self.rest_helper = helper.RESTHelper()
 
 	def get_streams(self):
 		"""
@@ -45,8 +46,9 @@ class Twitcher(object):
 		Returns a Stream object for channel
 
 		:params: channel - string of name for the stream's channel
-		:returns:
+		:returns: classes.Stream object
 		"""
 		endpoint = GET_API_PATHS['streams_channel'] % channel
-		return Stream(self.rest.request(endpoint=endpoint))
+		stream_info = self.rest_helper.request(endpoint=endpoint)
+		return classes.Stream(stream_info)
 
