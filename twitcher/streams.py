@@ -45,17 +45,16 @@ class StreamInfoHelper(object):
         self.result_set         = self._get_results(self._data)
         self.viewers            = self._get_viewers()
         self._total             = len(self.result_set)
-
-        self._next              = None
-        if self._total == 0 or self._total < self._params['limit']:
-            self._next = None
-        else:
-            self._next              = self._data['_links'].get('next')
         # iteration variables
         self._iter_start        = False
 
+        if self._total == 0 or self._total < self._params['limit']:
+            self._next = None
+        else:
+            self._next = self._data['_links'].get('next')
+
     def __iter__(self):
-        self._iter_start        = True
+        self._iter_start = True
         return self
 
     def next(self):
@@ -95,9 +94,14 @@ class StreamInfoHelper(object):
         elif 'stream' in _data:
             return [Stream(_data['stream'])]
 
+        elif 'featured' in _data:
+            for featured_stream in _data['featured']:
+                stream_objs.append(Stream(featured_stream['stream']))
+            return stream_objs
+
         else:
             raise AssertionError('was expecting streams or stream, but only \
-                found %s' ' '.join([keys for keys in _data.iterkeys()]))
+                found %s' % ' '.join([keys for keys in _data.iterkeys()]))
 
     def _get_viewers(self):
         """
@@ -146,23 +150,25 @@ class Stream(object):
         # stream is offline
         if self._data is None:
             self.online         = False
+            self.channel        = None
             self.broadcaster    = None
             self.preview        = None
             self.stream_id      = None
             self.viewers        = 0
-            self.name           = None
+            self.display_name   = None
+            self.status         = None
             self.game           = None
-            self.channel        = None
             self.url            = None
 
         # stream is online
         else:
             self.online         = True
+            self.channel        = channels.Channel(self._data['channel'])
             self.broadcaster    = str(self._data.get('broadcaster'))
             self.preview        = str(self._data.get('preview'))
             self.stream_id      = str(self._data.get('_id'))
             self.viewers        = int(self._data.get('viewers', 0))
-            self.name           = str(self._data.get('name'))
+            self.display_name   = str(self.channel.display_name)
+            self.status         = str(self.channel.status)
             self.game           = str(self._data.get('game'))
-            self.channel        = channels.Channel(self._data['channel'])
             self.url            = str(self.channel.url)

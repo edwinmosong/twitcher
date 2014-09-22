@@ -18,7 +18,7 @@ BASE_URL = 'https://api.twitch.tv/kraken'
 GET_API_PATHS = {
     'streams':              '/streams/?',
     'streams_channel':      '/streams/%s/?',
-    'streams_feature':      '/streams/featured?',
+    'streams_featured':      '/streams/featured?',
     'streams_summary':      '/streams/summary?',
     'channel':              '/channels/%s?',
     'channel_videos':       '/channels/%s/videos?',
@@ -60,6 +60,16 @@ class Twitcher(object):
         params = dict([('game', game), ('channel', channel), ('limit', limit),
                       ('offset', offset), ('embeddable', embeddable), 
                       ('hls', hls)])
+
+        stream_info = self.rest_helper.request(endpoint=endpoint, params=params)
+        return streams.StreamInfoHelper(stream_info, params=params)
+
+    def get_featured_streams(self, limit=25, offset=0, hls='false'):
+        """
+        Retrieves a StreamInfoHelper for featured streams
+        """
+        endpoint = GET_API_PATHS['streams_featured']
+        params = dict([('limit', limit), ('offset', offset), ('hls', hls)])
 
         stream_info = self.rest_helper.request(endpoint=endpoint, params=params)
         return streams.StreamInfoHelper(stream_info, params=params)

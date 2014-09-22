@@ -23,4 +23,5 @@ class Channel(object):
         self.banner         = str(self._channel_data.get('banner'))
         self.url            = str(self._channel_data.get('url'))
         self.game           = str(self._channel_data.get('game'))
+        self.status         = str(self._channel_data.get('status'))
 
