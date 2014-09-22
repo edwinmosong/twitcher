@@ -55,6 +55,7 @@ class StreamInfoHelper(object):
 
     def __iter__(self):
         self._iter_start = True
+        self._next = self._data['_links'].get('next')
         return self
 
     def next(self):
@@ -169,6 +170,6 @@ class Stream(object):
             self.stream_id      = str(self._data.get('_id'))
             self.viewers        = int(self._data.get('viewers', 0))
             self.display_name   = str(self.channel.display_name)
-            self.status         = str(self.channel.status)
+            self.status         = self.channel.status
             self.game           = str(self._data.get('game'))
             self.url            = str(self.channel.url)
