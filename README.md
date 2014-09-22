@@ -33,7 +33,7 @@ To get all streams in a specific game:
 >>> import twitcher
 >>> twitcher = twitcher.Twitcher()
 # get all CS:GO games
->>> csgo = twitcher.get_streams(game='Counter-Strike: Global Offensive')
+>>> csgo = twitcher.get_stream_info(game='Counter-Strike: Global Offensive')
 >>> csgo
 <twitcher.streams.StreamInfoHelper object at 0x107802d10>
 ```
@@ -41,45 +41,43 @@ To get all streams in a specific game:
 Here's a great time to show how to iterate over streams from your query. The
 default limit of streams retrieved is 25, but for games like Counter-Strike: GO
 and League of Legends, the number of streams easily exceeds 25. Let's work off
-of the CSGO example from above. If you want to iterate over all results:
+of the CSGO example from above and limit our results to 5 streams. If you want to iterate over all results:
 
-```bash
->>> csgo
-<twitcher.streams.StreamInfoHelper object at 0x107802d10>
+```
 >>> for sih in csgo:
 ...     for stream in sih.get_streams():
-...         print stream.url
-...         print stream.viewers
-...         
-http://www.twitch.tv/theoriginalweed
-5288
-http://www.twitch.tv/destiny
-1245
-http://www.twitch.tv/sp00nerism
-659
-http://www.twitch.tv/starladder5
-569
-http://www.twitch.tv/allub
-452
-http://www.twitch.tv/x6flipin
-397
-http://www.twitch.tv/etrnlwait
-339
-http://www.twitch.tv/tarik_tv
-269
-http://www.twitch.tv/lolyou
-245
-http://www.twitch.tv/alrightyright
+...             print stream.status
+...             print '>>>', stream.url
+...             print '###', str(stream.viewers)
 ...
+CS w/ @summit1g.
+>>> http://www.twitch.tv/summit1g
+### 11984
+Short stream before practice
+>>> http://www.twitch.tv/n0thingtv
+### 2492
+ScreaM - SaiyajiN Mod // New SubEmote // The Hype is real !
+>>> http://www.twitch.tv/scream
+### 1761
+WarOwl Live! Games Overwatch and More!
+>>> http://www.twitch.tv/warowl
+### 975
+Redline AWP Giveaway at 169,696 FOLLOWERS!
+>>> http://www.twitch.tv/kittyplaysgames
+### 774
+shaffeR's short stream till gf home, then OVERNIGHT DRINKING STREAM
+>>> http://www.twitch.tv/shaffer2369
+### 504
+REBROADCAST | SLTV S11
+>>> http://www.twitch.tv/starladder5
+### 488
+ceh9 playing with Zeus and friends CS:GO
+>>> http://www.twitch.tv/ceh9
+### 358
 ...
-# this will go on until the last online stream for Counter-Strike: Global Offensive streams.
 ```
 
-If you instead want all these Stream objects, a convenience method is available 
-to retrieve them all. You can optionally pass a limit parameter to limit how many
-Stream objects are retrieved. The limit parameter is there to avoid long wait times
-for games with a lot of streams. The default value is set to 50 (twice the normal
-limit). If you set limit=0, the method will grab all streams (not recommended).
+The above example seems pretty silly if all you want is to retrieve all Stream objects. For this very reason, a convenience method `get_all_streams` is provided. You can optionally pass a limit parameter to limit how many Stream objects are retrieved. The limit parameter is there to avoid long wait times for games with a large number of streams. The default value is set to 50 (twice the normal limit). If you set limit=0, the method will grab all streams (not recommended).
 
 ```bash
 >>> csgo
