@@ -72,8 +72,23 @@ http://www.twitch.tv/lolyou
 http://www.twitch.tv/alrightyright
 ...
 ...
-# this will go on until the last online stream for Counter-Strike: Global 
-Offensive
+# this will go on until the last online stream for Counter-Strike: Global Offensive streams.
+```
+
+If you instead want all these Stream objects, a convenience method is available 
+to retrieve them all. You can optionally pass a limit parameter to limit how many
+Stream objects are retrieved. The limit parameter is there to avoid long wait times
+for games with a lot of streams. The default value is set to 50 (twice the normal
+limit). If you set limit=0, the method will grab all streams (not recommended).
+
+```bash
+>>> csgo
+<twitcher.streams.StreamInfoHelper object at 0x107802d10>
+>>> all_streams = csgo.get_all_streams(limit=33)
+>>> len(all_streams)
+33
+>>> all_streams
+[<twitcher.streams.Stream object at 0x106a630d0>, <twitcher.streams.Stream object at 0x106e107d0>, <twitcher.streams.Stream object at 0x106e10ad0>, <twitcher.streams.Stream object at 0x106ebfa50>, ...]
 ```
 
 ## To do

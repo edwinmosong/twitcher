@@ -114,6 +114,23 @@ class StreamInfoHelper(object):
         """
         return self.result_set
 
+    def get_all_streams(self, limit=50):
+        """
+        :params: limit, default to 50 (twice normal limit)
+        Returns the result set of all streams, up to the provided limit. This 
+        goes through all _next links and returns Stream objects in a list.
+        This is currently a very slow process, if limit is set to 0 or a very
+        high number.
+        """
+        all_streams = []
+        for sih in self:
+            for stream in sih.get_streams():
+                if limit != 0 and len(all_streams) >= limit:
+                    return all_streams
+                all_streams.append(stream)
+        return all_streams
+
+
 class Stream(object):
     """
     Class Stream represents a Stream in TwitchTV
