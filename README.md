@@ -92,3 +92,6 @@ The above example seems pretty silly if all you want is to retrieve all Stream o
 ## To do
 * Maybe implement users and user functionality
 * Maybe support more resources in the TwitchTV api.
+
+For reference:
+[Twitch TV api](https://github.com/justintv/Twitch-API)
