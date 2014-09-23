@@ -7,6 +7,12 @@ A simple Twitch TV API wrapper in Python.
 This wrapper was created to be consumed by myself in creating an app that would
 very easily display information about streams online and links to them. 
 
+## Installing
+Clone/fork repo and run 
+```bash
+$ python setup.py install
+```
+
 ## Usage
 Still a WIP (so implementation may change, this will be updated accordingly), 
 but usage will be aimed to be super easy and simple.
